@@ -10,6 +10,21 @@
 npm install --save offline-pose
 ```
 
+Install dependencies.
+
+```json
+{
+  "@mediapipe/pose": "~0.4.0",
+  "@tensorflow-models/pose-detection": "^0.0.6",
+  "@tensorflow/tfjs-backend-wasm": "^3.8.0",
+  "@tensorflow/tfjs-backend-webgl": "^3.8.0",
+  "@tensorflow/tfjs-converter": "^3.8.0",
+  "@tensorflow/tfjs-core": "^3.8.0",
+  "dat.gui": "^0.7.7",
+  "stats.js": "^0.17.0"
+}
+```
+
 ## Usage
 
 ```jsx
