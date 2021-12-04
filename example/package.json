@@ -10,10 +10,6 @@
     "eject": "node ../node_modules/react-scripts/bin/react-scripts.js eject"
   },
   "dependencies": {
-    "react": "link:../node_modules/react",
-    "react-dom": "link:../node_modules/react-dom",
-    "react-scripts": "link:../node_modules/react-scripts",
-    "offline-pose": "link:..",
     "@mediapipe/pose": "~0.4.0",
     "@tensorflow-models/pose-detection": "^0.0.6",
     "@tensorflow/tfjs-backend-wasm": "^3.8.0",
@@ -21,6 +17,11 @@
     "@tensorflow/tfjs-converter": "^3.8.0",
     "@tensorflow/tfjs-core": "^3.8.0",
     "dat.gui": "^0.7.7",
+    "offline-pose": "link:..",
+    "pubsub-js": "^1.9.4",
+    "react": "link:../node_modules/react",
+    "react-dom": "link:../node_modules/react-dom",
+    "react-scripts": "link:../node_modules/react-scripts",
     "stats.js": "^0.17.0"
   },
   "devDependencies": {
