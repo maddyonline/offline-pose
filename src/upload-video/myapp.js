@@ -2,7 +2,7 @@ import React from 'react';
 import { setupDatGui } from './option_panel';
 import { runApp } from './tf_utils';
 
-export function MyApp() {
+export function MyApp({ handlePoses }) {
     const controlsUI = React.useRef(null);
     const gui = React.useRef(null);
     React.useEffect(() => {
@@ -10,7 +10,7 @@ export function MyApp() {
             if (controlsUI.current) {
                 gui.current = await setupDatGui({ model: "movenet", autoPlace: false });
                 controlsUI.current.appendChild(gui.current.domElement)
-                await runApp();
+                await runApp(handlePoses);
             }
         };
         initGui()

@@ -108,7 +108,7 @@ function endEstimatePosesStats() {
   }
 }
 
-async function renderResult() {
+async function renderResult(handlePoses) {
   // FPS only counts the time it takes to finish estimatePoses.
   beginEstimatePosesStats();
 
@@ -117,6 +117,7 @@ async function renderResult() {
     { maxPoses: STATE.modelConfig.maxPoses, flipHorizontal: false });
 
   camera.frames.push(poses);
+  handlePoses(poses);
 
   endEstimatePosesStats();
 
@@ -157,13 +158,13 @@ async function updateVideo(event) {
   camera.video.height = videoHeight;
   camera.canvas.width = videoWidth;
   camera.canvas.height = videoHeight;
-  
+
   console.log("video is loaded");
 
   // statusElement.innerHTML = 'Video is loaded.';
 }
 
-async function runFrame() {
+async function runFrame(handlePoses) {
   if (video.paused) {
     // video has finished.
     camera.mediaRecorder.stop();
@@ -171,11 +172,12 @@ async function runFrame() {
     camera.video.style.visibility = 'visible';
     return;
   }
-  await renderResult();
-  rafId = requestAnimationFrame(runFrame);
+  await renderResult(handlePoses);
+  const recurse = (handlePoses) => () => runFrame(handlePoses)
+  rafId = requestAnimationFrame(recurse(handlePoses));
 }
 
-async function run() {
+async function run(handlePoses) {
   // statusElement.innerHTML = 'Warming up model.';
   console.log("warming up model");
 
@@ -206,19 +208,10 @@ async function run() {
     };
   });
 
-  await runFrame();
+  await runFrame(handlePoses);
 }
 
-export async function runApp() {
-  // // Gui content will change depending on which model is in the query string.
-  // const urlParams = new URLSearchParams(window.location.search);
-  // console.log({ urlParams });
-  // if (!urlParams.has('model')) {
-  //   alert('Cannot find model in the query string.');
-  //   return;
-  // }
-
-  // await setupDatGui(urlParams);
+export async function runApp(handlePoses) {
   stats = setupStats();
   detector = await createDetector();
   camera = new Context();
@@ -226,7 +219,7 @@ export async function runApp() {
   await setBackendAndEnvFlags(STATE.flags, STATE.backend);
 
   const runButton = document.getElementById('submit');
-  runButton.onclick = run;
+  runButton.onclick = () => run(handlePoses);
 
   const uploadButton = document.getElementById('videofile');
   uploadButton.onchange = updateVideo;
